@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  /* Dark canvas, tinted toward the accent hue (green). Never pure black. */
+  --color-bg: oklch(0.165 0.008 158);
+  --color-surface: oklch(0.205 0.01 158);
+  --color-line: oklch(0.31 0.012 158);
+  --color-line-bright: oklch(0.42 0.016 158);
+  --color-text: oklch(0.965 0.005 158);
+  --color-muted: oklch(0.7 0.014 158);
+  --color-faint: oklch(0.52 0.012 158);
+
+  /* Electric green: live status + primary accent. ~9% of surface. */
+  --color-accent: oklch(0.87 0.19 152);
+  --color-accent-dim: oklch(0.62 0.12 152);
+  /* En proceso: warm amber, distinct from accent and from muted text. */
+  --color-progress: oklch(0.82 0.13 80);
+
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* Subtle grain/vignette so the dark field is not flat. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    120% 80% at 15% 0%,
+    oklch(0.22 0.02 158 / 0.6),
+    transparent 60%
+  );
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Staggered entrance for the project rows. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  animation: rise 0.7s var(--ease-out-quint) both;
+}
+
+@keyframes rise-down {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise-down {
+  animation: rise-down 0.6s var(--ease-out-quint) both;
+}
